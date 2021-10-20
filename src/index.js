@@ -20,4 +20,5 @@ const virtualDOM = (
   </div>
 )
 
+MiniReact.render(virtualDOM, root)
 console.log(virtualDOM)
