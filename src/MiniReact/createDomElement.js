@@ -1,17 +1,20 @@
 import mountComponent from './mountComponent'
+import updateNodeElement from './updateNodeElement'
+
 function createDomElement(virtualDom) {
-  let nativeElement = null;
+  let newElement = null;
   if (virtualDom.type === 'text') {
     // 文本
-    nativeElement = document.createTextNode(virtualDom.props.textContent)
+    newElement = document.createTextNode(virtualDom.props.textContent)
   } else {
-    nativeElement = document.createElement(virtualDom.type)
+    newElement = document.createElement(virtualDom.type)
+    updateNodeElement(newElement, virtualDom)
   }
 
   virtualDom.children.forEach(child => {
-    mountComponent(child, nativeElement)
+    mountComponent(child, newElement)
   })
-  return nativeElement;
+  return newElement;
 }
 
 export default createDomElement;
