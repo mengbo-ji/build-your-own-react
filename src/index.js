@@ -20,5 +20,34 @@ const virtualDOM = (
   </div>
 )
 
-MiniReact.render(virtualDOM, root)
-console.log(virtualDOM)
+// MiniReact.render(virtualDOM, root)
+// console.log(virtualDOM)
+
+const Hello = () => <div> Hello React </div>
+const Hello1 = (props) => {
+  return (
+    <div>
+      <p> {props.title} </p>
+      🦁<Hello /> 
+    </div>
+  )
+}
+
+// MiniReact.render(<Hello1 title={'你好 React'}/>, root)
+
+class Foo extends MiniReact.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>
+        Hello ClassComponent
+        <p>{this.props.name}</p>
+        <p>{this.props.age}</p>
+      </div>
+    )
+  }
+}
+
+MiniReact.render(<Foo name={'React'} age={18}/>, root)

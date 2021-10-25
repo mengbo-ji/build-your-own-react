@@ -1,4 +1,4 @@
-import mountComponent from './mountComponent'
+import mountElement from './mountElement'
 import updateNodeElement from './updateNodeElement'
 
 function createDomElement(virtualDom) {
@@ -12,7 +12,7 @@ function createDomElement(virtualDom) {
   }
 
   virtualDom.children.forEach(child => {
-    mountComponent(child, newElement)
+    mountElement(child, newElement)
   })
   return newElement;
 }

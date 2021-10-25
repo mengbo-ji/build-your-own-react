@@ -1,7 +1,7 @@
-import mountComponent from './mountComponent';
+import mountElement from './mountElement';
 function diff(virtualDom, root, oldDom) {
   if (!oldDom) {
-    mountComponent(virtualDom, root)
+    mountElement(virtualDom, root)
   }
 }
 
