@@ -10,7 +10,7 @@ function createDomElement(virtualDom) {
     newElement = document.createElement(virtualDom.type)
     updateNodeElement(newElement, virtualDom)
   }
-
+  newElement._virtualDom = virtualDom
   virtualDom.children.forEach(child => {
     mountElement(child, newElement)
   })
