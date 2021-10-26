@@ -1,19 +1,42 @@
-function updateNodeElement (newElement, virtualDom) {
+function updateNodeElement (newElement, virtualDom, oldVirtaulDom) {
   // 对象节点的属性对象
-  const props = virtualDom.props;
-  Reflect.ownKeys(props).forEach(propName => {
-    const propValue = props[propName]
-    // 判断是否是事件 onClick -> click
-    if (propName.startsWith('on')) {
-      newElement.addEventListener(propName.toLowerCase().slice(2), propValue)
-    } else if (propName === 'value' || propName === 'checked') {
-      // 这种形式不能通过 setAttribute 设置
-      newElement[propName] = propValue
-    } else if (propName !== 'children') {
-      if (propName === 'className') {
-        newElement.setAttribute('class', propValue)
-      } else {
-        newElement.setAttribute(propName, propValue)
+  const newProps = virtualDom?.props || {}
+  const oldProps = oldVirtaulDom?.props || {}
+  Reflect.ownKeys(newProps).forEach(propName => {
+    const newPropsValue = newProps[propName]
+    const oldPropsValue = oldProps[propName]
+    if (newPropsValue !== oldPropsValue) {
+      // 判断是否是事件 onClick -> click
+      if (propName.startsWith('on')) {
+        const eventName = propName.toLowerCase().slice(2)
+        newElement.addEventListener(eventName, newPropsValue)
+        // 卸载原有事件
+        if (oldPropsValue) {
+          newElement.removeEventListener(eventName, oldPropsValue)
+        }
+      } else if (propName === 'value' || propName === 'checked') {
+        // 这种形式不能通过 setAttribute 设置
+        newElement[propName] = newPropsValue
+      } else if (propName !== 'children') {
+        if (propName === 'className') {
+          newElement.setAttribute('class', newPropsValue)
+        } else {
+          newElement.setAttribute(propName, newPropsValue)
+        }
+      }
+    }
+  })
+  // 判断属性是否删除
+  Reflect.ownKeys(oldProps).forEach(propName => {
+    const newPropsValue = newProps[propName]
+    const oldPropsValue = oldProps[propName]
+    if (!newPropsValue) {
+      // 属性被删除了
+      if (propName.startsWith('on')) {
+        const eventName = propName.toLowerCase().slice(2)
+        newElement.removeEventListener(eventName, oldPropsValue)
+      } else if (propName !== 'children') {
+        newElement.removeAttribute(propName)
       }
     }
   })

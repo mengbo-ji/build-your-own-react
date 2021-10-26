@@ -6,7 +6,7 @@ const virtualDOM = (
   <div className="container">
     <h1>你好 Tiny React</h1>
     <h2 data-test="test">(编码必杀技)</h2>
-    <div>
+    <div data-test="1">
       嵌套1 <div>嵌套 1.1</div>
     </div>
     <h3>(观察: 这个将会被改变)</h3>
@@ -23,7 +23,7 @@ const virtualDOM = (
 const modifyDOM = (
   <div className="container">
     <h1>你好 Tiny React</h1>
-    <h2 data-test="test">(编码必杀技)</h2>
+    <h2 data-test="test123">(编码必杀技)</h2>
     <div>
       嵌套1 <div>嵌套 1.1</div>
     </div>
