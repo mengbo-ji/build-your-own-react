@@ -2,6 +2,7 @@ import mountElement from './mountElement';
 import updateTextNode from './updateTextNode';
 import updateNodeElement from './updateNodeElement';
 import createDomElement from './createDomElement';
+import unmountNode from './unmountNode';
 
 function diff (virtualDom, root, oldDom) {
   const oldVirtaulDom = oldDom && oldDom._virtualDom
@@ -10,7 +11,6 @@ function diff (virtualDom, root, oldDom) {
   } else if (virtualDom.type !== oldVirtaulDom.type && typeof virtualDom.type !== 'function') {
     const newElement = createDomElement(virtualDom)
     oldDom.parentNode.replaceChild(newElement, oldDom)
-
   } else if (oldVirtaulDom && virtualDom.type === oldVirtaulDom.type) {
     if (virtualDom.type === 'text') {
       // 更新内容
@@ -23,6 +23,15 @@ function diff (virtualDom, root, oldDom) {
     virtualDom.children.forEach((child, idx) => {
       diff(child, oldDom, oldDom.childNodes[idx])
     })
+
+    // 删除节点
+    const oldChildNodes = oldDom.childNodes;
+    if (oldChildNodes.length > virtualDom.children.length) {
+      // 要删除对应节点
+      for (let i = oldChildNodes.length - 1; i > virtualDom.children.length - 1; i--) {
+        unmountNode(oldChildNodes[i]);
+      }
+    }
   }
 }
 
