@@ -23,8 +23,10 @@ function buildFunctionComponent(virtualDom) {
 }
 
 function buildClassComponent(virtualDom) {
-  const component = new virtualDom.type(virtualDom.props || {});
-  return component.render();
+  const component = new virtualDom.type(virtualDom.props || {})
+  const nextVirtualDom = component.render()
+  nextVirtualDom.component = component
+  return nextVirtualDom
 }
 
 export default mountComponent

@@ -35,11 +35,11 @@ const modifyDOM = (
   </div>
 )
 
-MiniReact.render(virtualDOM, root)
+// MiniReact.render(virtualDOM, root)
 
-setTimeout(() => {
-  MiniReact.render(modifyDOM, root)
-}, 2000)
+// setTimeout(() => {
+//   MiniReact.render(modifyDOM, root)
+// }, 2000)
 
 const Hello = () => <div> Hello React </div>
 const Hello1 = (props) => {
@@ -56,16 +56,31 @@ const Hello1 = (props) => {
 class Foo extends MiniReact.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      title: 'Detault Title'
+    }
   }
+
+  handleClick = () => {
+    this.setState({
+      title: 'Changed Title'
+    })
+  }
+
   render() {
+    console.log(this.state)
     return (
       <div>
         Hello ClassComponent
         <p>{this.props.name}</p>
         <p>{this.props.age}</p>
+        <div>
+          { this.state.title }
+          <button onClick={this.handleClick}> 改变Title </button>
+        </div>
       </div>
     )
   }
 }
 
-// MiniReact.render(<Foo name={'React'} age={18}/>, root)
+MiniReact.render(<Foo name={'React'} age={18}/>, root)
