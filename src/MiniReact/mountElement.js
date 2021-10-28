@@ -2,14 +2,14 @@ import mountNativeElement from './mountNativeElement'
 import mountComponent from './mountComponent'
 import isFunction from './isFunction'
 
-function mountElement(virtualDom, root) {
+function mountElement(virtualDom, root, oldDom) {
   // 组件 or native
   if (isFunction(virtualDom)) {
     // 函数式组件或者类组件
-    mountComponent(virtualDom, root)
+    mountComponent(virtualDom, root, oldDom)
   } else {
     // 原生组件
-    mountNativeElement(virtualDom, root);
+    mountNativeElement(virtualDom, root, oldDom);
   }
 }
 

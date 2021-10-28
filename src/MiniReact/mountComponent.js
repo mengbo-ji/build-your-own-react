@@ -2,7 +2,7 @@ import isFunctionComponent from './isFunctionComponent';
 import mountNativeElement from './mountNativeElement';
 import isFunction from './isFunction';
 
-function mountComponent(virtualDom, root) {
+function mountComponent(virtualDom, root, oldDom) {
   let nextVirtualDom = null;
   if (isFunctionComponent(virtualDom)) {
     // 函数组件
@@ -12,9 +12,9 @@ function mountComponent(virtualDom, root) {
     nextVirtualDom = buildClassComponent(virtualDom)
   }
   if (isFunction(nextVirtualDom)) {
-    mountComponent(nextVirtualDom, root)
+    mountComponent(nextVirtualDom, root, oldDom)
   } else {
-    mountNativeElement(nextVirtualDom, root)
+    mountNativeElement(nextVirtualDom, root, oldDom)
   }
 }
 

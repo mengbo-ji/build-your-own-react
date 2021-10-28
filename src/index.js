@@ -41,17 +41,13 @@ const modifyDOM = (
 //   MiniReact.render(modifyDOM, root)
 // }, 2000)
 
-const Hello = () => <div> Hello React </div>
-const Hello1 = (props) => {
-  return (
-    <div>
-      <p> {props.title} </p>
-      🦁<Hello /> 
-    </div>
-  )
-}
+const Hello = (props) => <div> { props.title } </div>
+const Hello1 = (props) => <div> { props.title } </div>
 
-// MiniReact.render(<Hello1 title={'你好 React'}/>, root)
+MiniReact.render(<Hello title={'Hello'}/>, root)
+setTimeout(() => {
+  MiniReact.render(<Hello1 title={'Hello1'}/>, root)
+}, 2000)
 
 class Foo extends MiniReact.Component {
   constructor(props) {
@@ -83,4 +79,4 @@ class Foo extends MiniReact.Component {
   }
 }
 
-MiniReact.render(<Foo name={'React'} age={18}/>, root)
+// MiniReact.render(<Foo name={'React'} age={18}/>, root)
