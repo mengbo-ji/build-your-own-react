@@ -44,10 +44,21 @@ const modifyDOM = (
 const Hello = (props) => <div> { props.title } </div>
 const Hello1 = (props) => <div> { props.title } </div>
 
-MiniReact.render(<Hello title={'Hello'}/>, root)
-setTimeout(() => {
-  MiniReact.render(<Hello1 title={'Hello1'}/>, root)
-}, 2000)
+// MiniReact.render(<Hello title={'Hello'}/>, root)
+// setTimeout(() => {
+//   MiniReact.render(<Hello title={'Hello1'}/>, root)
+// }, 2000)
+
+class RefDemo extends MiniReact.Component {
+  render() {
+    return (
+      <div>
+        {this.props.name}
+      </div>
+    )
+  }
+}
+
 
 class Foo extends MiniReact.Component {
   constructor(props) {
@@ -57,10 +68,31 @@ class Foo extends MiniReact.Component {
     }
   }
 
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps1', nextProps)
+  }
+
+  componentWillUpdate(nextProps) {
+    console.log('nextProps2', nextProps)
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log('prevProps', prevProps)
+  }
+
   handleClick = () => {
     this.setState({
       title: 'Changed Title'
     })
+  }
+
+  handleClick1 = () => {
+    console.log(this.elRef.value)
+    console.log(this.refDemo)
   }
 
   render() {
@@ -74,9 +106,17 @@ class Foo extends MiniReact.Component {
           { this.state.title }
           <button onClick={this.handleClick}> 改变Title </button>
         </div>
+        <div>
+          <input ref={el => (this.elRef = el)} />
+          <button onClick={this.handleClick1}> 按钮 </button>
+          <RefDemo ref={refDemo => (this.refDemo = refDemo)} name={'RefDemo'}/>
+        </div>
       </div>
     )
   }
 }
 
-// MiniReact.render(<Foo name={'React'} age={18}/>, root)
+MiniReact.render(<Foo name={'React'} age={18}/>, root)
+setTimeout(() => {
+  MiniReact.render(<Foo name={'Update React'} age={180}/>, root)
+}, 2000)

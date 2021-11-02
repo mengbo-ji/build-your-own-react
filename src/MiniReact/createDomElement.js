@@ -14,6 +14,9 @@ function createDomElement(virtualDom) {
   virtualDom.children.forEach(child => {
     mountElement(child, newElement)
   })
+  if (virtualDom.props && virtualDom.props.ref) {
+    virtualDom.props.ref(newElement)
+  }
   return newElement;
 }
 
