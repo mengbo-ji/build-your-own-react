@@ -41,8 +41,8 @@ const modifyDOM = (
 //   MiniReact.render(modifyDOM, root)
 // }, 2000)
 
-const Hello = (props) => <div> { props.title } </div>
-const Hello1 = (props) => <div> { props.title } </div>
+const Hello = (props) => <div> {props.title} </div>
+const Hello1 = (props) => <div> {props.title} </div>
 
 // MiniReact.render(<Hello title={'Hello'}/>, root)
 // setTimeout(() => {
@@ -50,7 +50,7 @@ const Hello1 = (props) => <div> { props.title } </div>
 // }, 2000)
 
 class RefDemo extends MiniReact.Component {
-  render() {
+  render () {
     return (
       <div>
         {this.props.name}
@@ -68,19 +68,19 @@ class Foo extends MiniReact.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     console.log('componentDidMount')
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     console.log('nextProps1', nextProps)
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate (nextProps) {
     console.log('nextProps2', nextProps)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     console.log('prevProps', prevProps)
   }
 
@@ -95,7 +95,7 @@ class Foo extends MiniReact.Component {
     console.log(this.refDemo)
   }
 
-  render() {
+  render () {
     console.log(this.state)
     return (
       <div>
@@ -103,20 +103,69 @@ class Foo extends MiniReact.Component {
         <p>{this.props.name}</p>
         <p>{this.props.age}</p>
         <div>
-          { this.state.title }
+          {this.state.title}
           <button onClick={this.handleClick}> 改变Title </button>
         </div>
         <div>
           <input ref={el => (this.elRef = el)} />
           <button onClick={this.handleClick1}> 按钮 </button>
-          <RefDemo ref={refDemo => (this.refDemo = refDemo)} name={'RefDemo'}/>
+          <RefDemo ref={refDemo => (this.refDemo = refDemo)} name={'RefDemo'} />
         </div>
       </div>
     )
   }
 }
 
-MiniReact.render(<Foo name={'React'} age={18}/>, root)
-setTimeout(() => {
-  MiniReact.render(<Foo name={'Update React'} age={180}/>, root)
-}, 2000)
+// MiniReact.render(<Foo name={'React'} age={18}/>, root)
+// setTimeout(() => {
+//   MiniReact.render(<Foo name={'Update React'} age={180}/>, root)
+// }, 2000)
+
+class KeyDemo extends MiniReact.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      persons: [
+        {
+          id: 1,
+          name: "张三"
+        },
+        {
+          id: 2,
+          name: "李四"
+        },
+        {
+          id: 3,
+          name: "王五"
+        },
+        {
+          id: 4,
+          name: "赵六"
+        }
+      ]
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick () {
+    const newState = JSON.parse(JSON.stringify(this.state))
+    newState.persons.push(newState.persons.shift())
+    // newState.persons.splice(1, 0, { id: 100, name: "李逵" })
+    // newState.persons.pop()
+    this.setState(newState)
+  }
+  render () {
+    return (
+      <div>
+        <ul>
+          {this.state.persons.map(person => (
+            <li key={person.id}>
+              {person.name}
+            </li>
+          ))}
+        </ul>
+        <button onClick={this.handleClick}>按钮</button>
+      </div>
+    )
+  }
+}
+MiniReact.render(<KeyDemo />, root)

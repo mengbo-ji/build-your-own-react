@@ -4,7 +4,7 @@
  * @type { import('react') } 
 */
 function createElement(type, props, ...children) {
-  const childElements = [...children].reduce((result, child) => {
+  const childElements = [].concat(...children).reduce((result, child) => {
     if (child !== false && child !== true && child !== null) {
       if (child instanceof Object) {
         result.push(child)
@@ -15,6 +15,7 @@ function createElement(type, props, ...children) {
     }
     return result
   }, [])
+
   return {
     type,
     props: Object.assign({ children: childElements }, props),
