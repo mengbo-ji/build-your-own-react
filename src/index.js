@@ -84,6 +84,10 @@ class Foo extends MiniReact.Component {
     console.log('prevProps', prevProps)
   }
 
+  componentWillUnmount() {
+    console.log('componentWillUnmount')
+  }
+
   handleClick = () => {
     this.setState({
       title: 'Changed Title'
@@ -149,10 +153,11 @@ class KeyDemo extends MiniReact.Component {
   handleClick () {
     const newState = JSON.parse(JSON.stringify(this.state))
     // newState.persons.push(newState.persons.shift())
-    newState.persons.splice(1, 0, { id: 100, name: "李逵" })
-    // newState.persons.pop()
+    // newState.persons.splice(1, 0, { id: 100, name: "李逵" })
+    newState.persons.pop()
     this.setState(newState)
   }
+
   render () {
     return (
       <div>
@@ -160,6 +165,7 @@ class KeyDemo extends MiniReact.Component {
           {this.state.persons.map(person => (
             <li key={person.id}>
               {person.name}
+              <Foo/>
             </li>
           ))}
         </ul>

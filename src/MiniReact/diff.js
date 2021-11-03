@@ -63,9 +63,27 @@ function diff (virtualDom, root, oldDom) {
     // 删除节点
     const oldChildNodes = oldDom.childNodes;
     if (oldChildNodes.length > virtualDom.children.length) {
-      // 要删除对应节点
-      for (let i = oldChildNodes.length - 1; i > virtualDom.children.length - 1; i--) {
-        unmountNode(oldChildNodes[i]);
+      if (hasNoKey) {
+        // 要删除对应节点
+        for (let i = oldChildNodes.length - 1; i > virtualDom.children.length - 1; i--) {
+          unmountNode(oldChildNodes[i]);
+        }
+      } else {
+        // 通过key 属性去对比
+        for (let i = 0; i < oldChildNodes.length; i++) {
+          let oldChild = oldChildNodes[i]
+          let oldChildKey = oldChild._virtualDom.props.key
+          let found = false
+          for (let n = 0; n < virtualDom.children.length; n++) {
+            if (oldChildKey === virtualDom.children[n].props.key) {
+              found = true
+              break
+            }
+          }
+          if (!found) {
+            unmountNode(oldChild)
+          }
+        }
       }
     }
   }
